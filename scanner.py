@@ -9,7 +9,7 @@ detectedfiles = []
 for root,dirs,files in os.walk("/"):
   for file in files:
     try:
-      sha256f = sha256(open(os.path.join(root,file),"wb").read()).hexdigest()
+      sha256f = sha256(open(os.path.join(root,file),"rb").read()).hexdigest()
       for cata in sigs:
         for detection in cata:
           if sha256f in sigs[cata][detection]:
