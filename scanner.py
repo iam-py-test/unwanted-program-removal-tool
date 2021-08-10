@@ -14,7 +14,7 @@ for root,dirs,files in os.walk("/"):
         for detection in cata:
           if sha256f in sigs[cata][detection]:
             print("{} found found in {}: {}".format(detection,root,file))
-            detectedfiles.append(os.path.join(root,file))
+            detectedfiles.append({"path":os.path.join(root,file),"detection":detection})
             try:
               if input("Remove (y/n): ") == 'y':
                 os.remove(os.path.join(root,file))
@@ -26,5 +26,5 @@ for root,dirs,files in os.walk("/"):
  
 print("\n\n\nDetected malware:\n")
 for detection in detectedfiles:
-  print(detection)
+  print("{} detected in {}".format(detection["detection"],detection["path"]))
 
