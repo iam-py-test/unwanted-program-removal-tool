@@ -8,6 +8,8 @@ dirtoscan = input("Enter to dir to scan: ")
 sigs = json.loads(requests.get('https://raw.githubusercontent.com/iam-py-test/unwanted-program-removal-tool/main/sha256_sigs.json').text)
 detectedfiles = []
 
+print(sigs)
+
 for root,dirs,files in os.walk(dirtoscan):
   for file in files:
     try:
