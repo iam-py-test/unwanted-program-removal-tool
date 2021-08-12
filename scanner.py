@@ -16,7 +16,8 @@ for root,dirs,files in os.walk(dirtoscan):
       sha256f = sha256(open(os.path.join(root,file),"rb").read()).hexdigest()
       for cata in sigs:
         for detection in cata:
-          if sha256f in sigs[cata][detection]:
+          cataA = sigs[cata]
+          if sha256f in cataA[detection]:
             print("{} found found in {}: {}".format(detection,root,file))
             detectedfiles.append({"path":os.path.join(root,file),"detection":detection})
             try:
