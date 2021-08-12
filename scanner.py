@@ -3,10 +3,12 @@ import requests
 import json
 from hashlib import sha256
 
+dirtoscan = input("Enter to dir to scan: ")
+
 sigs = json.loads(requests.get('https://raw.githubusercontent.com/iam-py-test/unwanted-program-removal-tool/main/sha256_sigs.json').text)
 detectedfiles = []
 
-for root,dirs,files in os.walk("/"):
+for root,dirs,files in os.walk(dirtoscan):
   for file in files:
     try:
       sha256f = sha256(open(os.path.join(root,file),"rb").read()).hexdigest()
