@@ -12,10 +12,9 @@ print(sigs)
 
 for root,dirs,files in os.walk(dirtoscan):
   for file in files:
-    try:
       sha256f = sha256(open(os.path.join(root,file),"rb").read()).hexdigest()
       for cata in sigs:
-        for detection in cata:
+        for detection in sigs[cata]:
           cataA = sigs[cata]
           if sha256f in cataA[detection]:
             print("{} found found in {}: {}".format(detection,root,file))
@@ -25,9 +24,6 @@ for root,dirs,files in os.walk(dirtoscan):
                 os.remove(os.path.join(root,file))
             except:
               print("Failed to remove file")
-    except Exception as err:
-      print("Error in scanning file {}: {}".format(file,err))
-
  
 print("\n\n\nDetected malware:\n")
 for detection in detectedfiles:
