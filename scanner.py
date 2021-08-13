@@ -22,6 +22,14 @@ for root,dirs,files in os.walk(dirtoscan):
               detectedfiles.append({"path":os.path.join(root,file),"detection":detection})
               try:
                 if input("Remove (y/n): ") == 'y':
+                  
+                    try:
+                      import subprocess
+                      subprocess.run("taskkill \"{}\"".format(file),shell=True)
+                    except:
+                      pass
+                    else:
+                      print("Process {} ended. Removing file...".format(file))
                   os.remove(os.path.join(root,file))
               except:
                 print("Failed to remove file")
