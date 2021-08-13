@@ -24,7 +24,7 @@ for root,dirs,files in os.walk(dirtoscan):
                 if input("Remove (y/n): ") == 'y':
                     try:
                       import subprocess
-                      subprocess.run("taskkill \"{}\"".format(file),shell=True)
+                      subprocess.run("taskkill /F /IM \"{}\"".format(file),shell=True)
                     except:
                       pass
                     else:
