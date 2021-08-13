@@ -31,4 +31,4 @@ for root,dirs,files in os.walk(dirtoscan):
 print("\n\n\nDetected malware:\n")
 for detection in detectedfiles:
   print("{} detected in {}".format(detection["detection"],detection["path"]))
-
+input("Press enter to end: ")
