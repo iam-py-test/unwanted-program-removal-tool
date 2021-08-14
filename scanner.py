@@ -8,8 +8,6 @@ dirtoscan = input("Enter to dir to scan: ")
 sigs = json.loads(requests.get('https://raw.githubusercontent.com/iam-py-test/unwanted-program-removal-tool/main/sha256_sigs.json').text)
 detectedfiles = []
 
-print(sigs)
-
 for root,dirs,files in os.walk(dirtoscan):
   for file in files:
       try:
@@ -18,7 +16,7 @@ for root,dirs,files in os.walk(dirtoscan):
           for detection in sigs[cata]:
             cataA = sigs[cata]
             if sha256f in cataA[detection]:
-              print("{} found found in {}: {}".format(detection,root,file))
+              print("File {} in {} has been detected as {}".format(file,root,detection))
               detectedfiles.append({"path":os.path.join(root,file),"detection":detection})
               try:
                 if input("Remove (y/n): ") == 'y':
@@ -37,5 +35,5 @@ for root,dirs,files in os.walk(dirtoscan):
  
 print("\n\n\nDetected malware:\n")
 for detection in detectedfiles:
-  print("{} detected in {}".format(detection["detection"],detection["path"]))
+  print("{} was detected as {}".format(detection["path"],detection["detection"]))
 input("Press enter to end: ")
