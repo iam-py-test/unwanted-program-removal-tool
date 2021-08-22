@@ -1,0 +1,9 @@
+{
+  "PUP.TotalAV":{
+    "desc":"PUP.TotalAV is a fake antivirus program which is normally downloaded and installed as an independant file (not a bundle).\nThis program will ask for personal data and request payment.\nThis program can be removed by the Unwanted Program Removal tool, or by Malwarebytes's ADWCleaner (https://malwarebytes.com/adwcleaner)",
+    "tags":["scam","fakeav"],
+    "company_responsible":"Protected net",
+    "removal_level":"normal",
+    "rm_steps":["kill","del"]
+  }
+}
