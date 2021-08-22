@@ -8,9 +8,12 @@ var main = async function(){
   var data = JSON.parse(await datareq.text())
   console.log(data)
   document.getElementById('search').textContent = param
+  threatname = param
   try{
-    console.log(data[param])
-    document.getElementById("desc").innerText = (data[param].desc||"Not found")
+    console.log(data[threatname])
+    document.title = threatname
+    document.getElementById("desc").innerText = (data[threatname].desc||"Not found")
+    document.getElementById("company").textContent = (data[threatname]["company_responsible"]||"N/A")
   }
   catch(err){
     console.log(err)
