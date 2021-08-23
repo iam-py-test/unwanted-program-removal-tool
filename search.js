@@ -14,6 +14,7 @@ var main = async function(){
     document.title = threatname
     document.getElementById("desc").innerText = (data[threatname].desc||"Not found")
     document.getElementById("company").textContent = (data[threatname]["company_responsible"]||"N/A")
+    document.getElementById("level1").textContent = (data[threatname]["threat_level"]||"Unknown")
   }
   catch(err){
     console.log(err)
