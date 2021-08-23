@@ -7,7 +7,7 @@
     "rm_steps":["kill","del"]
   },
   "PUP.MediaGet":{
-  "desc":"PUP.MediaGet is a unwanted program which can be downloaded and installed as an independant file.\nFor more information, please see https://malwaretips.com/blogs/pup-adware-mediaget-removal/. \nThis threat is detected and removed by the Unwanted Program Removal tool. \nThe threat is detected by Malwarebytes as PUP.Optional.MediaGet, Microsoft as PUA:Win32/MediaGet, and Kaspersky as Not-a-virus:HEUR:Downloader.Win32.MegiaGet.gen., and can be removed using ADWCleaner or Hitman Pro.\nVirusTotal scan: https://www.virustotal.com/gui/file/af7b36c0f9f48f35315877e3cd5efb83c1a122a043ea9228db7da9c1c3c3120b/detection",
+  "desc":"PUP.MediaGet is a unwanted program which can be downloaded and installed as an independant file, or as part of a bundle.\nFor more information, please see https://malwaretips.com/blogs/pup-adware-mediaget-removal/. \nThis threat is detected and removed by the Unwanted Program Removal tool. \nThe threat is detected by Malwarebytes as PUP.Optional.MediaGet, Microsoft as PUA:Win32/MediaGet, and Kaspersky as Not-a-virus:HEUR:Downloader.Win32.MegiaGet.gen., and can be removed using ADWCleaner or Hitman Pro.\nVirusTotal scan: https://www.virustotal.com/gui/file/af7b36c0f9f48f35315877e3cd5efb83c1a122a043ea9228db7da9c1c3c3120b/detection",
     "tags":["pup","torrent"],
     "company_responsible":"unknown",
     "rm_steps":["kill","del"]
