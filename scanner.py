@@ -1,5 +1,14 @@
 import os
-import requests
+try:
+	import requests
+except:
+	import subprocess
+	try:
+		if input("Required packages are not installed. Install (y/n)?") == 'y':
+			subprocess.run("pip3 install requests",shell=True)
+			import requests
+	except Exception as err:
+		print(err)
 import json
 from hashlib import sha256
 
@@ -14,10 +23,6 @@ newsigs = {}
 for cata in sigs:
 	for detection in sigs[cata]:
 		newsigs[detection] = sigs[cata][detection]
-  
-with open("sigs_1.txt","w") as f:
-	f.write("{}".format(newsigs))
-	f.close()
 
 for root,dirs,files in os.walk(dirtoscan):
 	for file in files:
@@ -26,7 +31,7 @@ for root,dirs,files in os.walk(dirtoscan):
 			for sig in newsigs:
 				if sha256f in newsigs[sig]:
 					print("File {} in {} has been detected as {}".format(file,root,sig))
-					detectedfiles.append({"path":os.path.join(root,file),"detection":sig})
+					remed = False
 					try:
 						if input("Remove (y/n): ") == 'y':
 							try:
@@ -37,12 +42,18 @@ for root,dirs,files in os.walk(dirtoscan):
 							else:
 								print("Process {} ended. Removing file...".format(file))
 							os.remove(os.path.join(root,file))
+							remed = True
 					except:
 						print("Failed to remove file")
+					detectedfiles.append({"path":os.path.join(root,file),"detection":sig,"rem":remed})
+
 		except Exception as err:
-			pass
+			print(err)
  
 print("\n\n\nDetected malware:\n")
 for detection in detectedfiles:
-  print("{} was detected as {}".format(detection["path"],detection["detection"]))
+	if detection["rem"] == True:
+		print("{} was detected as {} and removed".format(detection["path"],detection["detection"]))
+	else:
+		print("{} was detected as {}, but was not removed".format(detection["path"],detection["detection"]))
 input("Press enter to end: ")
