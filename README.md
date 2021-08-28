@@ -8,4 +8,10 @@ The unwanted program removal tool does not require installation; you just need t
 [Download the ZIP of this repo](https://github.com/iam-py-test/unwanted-program-removal-tool/archive/refs/heads/main.zip) and unzip it.<br>
 Open Terminal (or another command line tool) and type `cd ` and then the directory you extracted it to.<br>
 Run it using Python. <br>
-If you get an error, verify that you have Python 3, and run `pip3 install requests`
+If you get an error, verify that you have Python 3 installed, and run `pip3 install requests`
+#### Windows
+[Download the ZIP of this repo](https://github.com/iam-py-test/unwanted-program-removal-tool/archive/refs/heads/main.zip) and unzip it.<br>
+Copy the directory where you extracted it to (open it in Explorer and verify  `scanner.py` is in that directory if you are unsure)<br>
+Type `cmd` into the Windows search bar. Right click on `Command Prompt` and click `Run as admin` or `Run as administrator`. Confirm in the UAC.<br>
+Type `python3 --version`. If you get an error, download and install it from python.org<br>
+Type `cd ` and then paste the directory you extracted to, and then type `python3 scanner.py`
