@@ -10,7 +10,7 @@ detectedfiles = []
 
 newsigs = {}
 for cata in sigs:
-  for detection in sigs[data]
+  for detection in sigs[data]:
     newsigs[detection] = sigs[cata]
   
 print(newsigs)
