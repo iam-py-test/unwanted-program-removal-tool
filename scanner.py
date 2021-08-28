@@ -8,6 +8,13 @@ dirtoscan = input("Enter to dir to scan: ")
 sigs = json.loads(requests.get('https://raw.githubusercontent.com/iam-py-test/unwanted-program-removal-tool/main/sha256_sigs.json').text)
 detectedfiles = []
 
+newsigs = {}
+for cata in sigs:
+  for detection in sigs[data]
+    newsigs[detection] = sigs[cata]
+  
+print(newsigs)
+
 for root,dirs,files in os.walk(dirtoscan):
   for file in files:
       try:
@@ -31,7 +38,7 @@ for root,dirs,files in os.walk(dirtoscan):
               except:
                 print("Failed to remove file")
       except Exception as err:
-        print("Unable to scan file {}: {}".format(file,err))
+        pass
  
 print("\n\n\nDetected malware:\n")
 for detection in detectedfiles:
