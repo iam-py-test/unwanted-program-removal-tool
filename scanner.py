@@ -1,5 +1,6 @@
 import os
 import sys
+from time import sleep
 try:
 	import requests
 except:
@@ -14,6 +15,13 @@ import json
 from hashlib import sha256
 
 version = 1.1
+
+def ZipScan(filename,ffunc):
+	import zipfile
+	zip = zipfile.ZipFile(filename)
+	print(zip)
+	for file in zip.namelist():
+		ffunc(file,zip.open(file,"r"))
 
 if sys.platform.startswith("win"):
 	try:
@@ -63,11 +71,48 @@ for root,dirs,files in os.walk(dirtoscan):
 							os.remove(os.path.join(root,file))
 							remed = True
 					except:
-						print("Failed to remove file")
+						try:
+							import subprocess
+							subprocess.run("taskkill /F /IM \"{}\"".format(file),shell=True)
+							sleep(5)
+							os.remove(os.path.join(root,file))
+							remed = True
+						except Exception  as err:
+							print("Failed to remove file: {}".format(err))
 					detectedfiles.append({"path":os.path.join(root,file),"detection":sig,"rem":remed})
 
 		except Exception as err:
 			print(err)
+		try:
+			if file.endswith(".zip"):
+				def zipf(zf,contents):
+					try:
+						print(zf)
+						sha256f = sha256(contents.read()).hexdigest()
+						for sig in newsigs:
+							if sha256f in newsigs[sig]:
+								print("File {} in {} has been detected as {}".format(zf,root,sig))
+								remed = False
+								try:
+									if input("Remove (y/n): ") == 'y':
+										try:
+											import subprocess
+											subprocess.run("taskkill /F /IM \"{}\"".format(zf),shell=True)
+										except:
+											pass
+										else:
+											print("Process {} ended. Removing file...".format(file))
+									os.remove(os.path.join(os.path.join(root,file),zf))
+									remed = True
+								except Exception as err:
+									print("Failed to remove file: {}".format(err))
+								detectedfiles.append({"path":os.path.join(root,file),"detection":sig,"rem":remed})
+					except Exception as err:
+						print(err)
+				ZipScan(os.path.join(root,file),zipf)
+		except Exception as err:
+			print(err)
+				
  
 print("\n\n\nDetected malware:\n")
 for detection in detectedfiles:
