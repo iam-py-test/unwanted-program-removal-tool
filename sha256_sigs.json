@@ -33,6 +33,7 @@
   "Trojan.Windows.Suspect.JSMal":["80a1d6912ea65c1b2c786560e8afa21070ed147276095c9ef48db523edcd2f39"],
   "Trojan.Windows.YourAnIdiotMAL":["3c0873b6479752026644acde4d59e08969cc26cacae62f595a6003f2635dda83","8703d8ec81ddf320a7b87b2b8f7c37b232220722d4a9cdf113a86cbbb97b04c5"],
   "Trojan.Linux.Mirai":["e0bcfa34b70aee7aac21a653f9e7012d9531bcda12ee4b8910d8031a0f61e456","39fe1418a8d1add5f5b8dddac86ec04da1ff07063d5938a4aab513e06cf7ecfe","4293c1d8574dc87c58360d6bac3daa182f64f7785c9d41da5e0741d2b1817fc7"],
+  "Trojan.Windows.LokibotPony":["04ec494dbe31926183fa5df683da21244c6c91df6d3e3d097c59aa637ddc12d4"],
   "Ransomware.Windows.StopCrypt":["cc142808277aba63344ba07c84a3014afb33864158a5e4b31a2e5925cc6d892a"]
 },
   "Adware":{
