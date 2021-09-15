@@ -40,6 +40,7 @@
   "Stalkerware.Android.Cocospy":["176cd54005aeb64d2415685c0f97bdad0292e9ae2f307bb6908c2927d5edd3a2"],
   "Trojan.Windows.generic.4":["f0ebff7088a3455f498371c7350e62926c5e049bb5968dd99e8430fe3a926e74","0611e18a65d7d68103b8555f38fd5a955ab240db13f4d5ee117de87f58065fc6"],
   "Worm.MyDoom":["7a447e898fad4cbcf77fb938b72d78ad9babd65a87064e4233de4024c47e89f4"],
+  "Trojan.Windows.generic.5":["eb2f55e1898b0906f7f2cafd631c045df318e1f350c9b05348897d6e6849571d"],
   "Ransomware.Windows.StopCrypt":["cc142808277aba63344ba07c84a3014afb33864158a5e4b31a2e5925cc6d892a"]
 },
   "Adware":{
