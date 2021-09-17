@@ -1,18 +1,20 @@
 name: Release UPRT Rescue 
 on: [workflow_dispatch]
 jobs:
-  windows:
+  mkalt:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-python@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
       with:
         python-version: '3.x'
-    - name: Create exe
-    - run: |
+    - name: Build
+      run: |
         python -m pip install --upgrade pip
         pip install pyinstaller
         pyinstaller --onefile uprt_rescue.py
+        echo 1 > "status.txt"
     - name: Commit & Push
       uses: actions-x/commit@v2
       with:
