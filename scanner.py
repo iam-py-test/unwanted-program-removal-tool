@@ -6,11 +6,14 @@ try:
 except:
 	import subprocess
 	try:
-		if input("Required packages are not installed. Install (y/n)?") == 'y':
-			subprocess.run("pip3 install requests",shell=True)
+		subprocess.run("pip3 install requests",shell=True)
+		sleep(2)
+		import requests
+	except:
+		try:
 			import requests
-	except Exception as err:
-		print(err)
+		except Exception as err:
+			print(err)
 import json
 from hashlib import sha256
 
@@ -22,8 +25,19 @@ def ZipScan(filename,ffunc):
 	print(zip)
 	for file in zip.namelist():
 		ffunc(file,zip.open(file,"r"))
+def getarg(pos=1):
+	try:
+		return sys.argv[pos]
+	except:
+		return None
+def hasarg(arg):
+	try:
+		return arg in sys.argv
+	except:
+		return False
+			
 
-if sys.platform.startswith("win"):
+if sys.platform.startswith("win") and hasarg("-noadmin") == False:
 	try:
 		import ctypes
 		def is_admin():
@@ -57,10 +71,17 @@ for root,dirs,files in os.walk(dirtoscan):
 			sha256f = sha256(open(os.path.join(root,file),"rb").read()).hexdigest()
 			for sig in newsigs:
 				if sha256f in newsigs[sig]:
-					print("File {} in {} has been detected as {}".format(file,root,sig))
+					if hasarg("--autoreact") == False:
+						print("File {} in {} has been detected as {}".format(file,root,sig))
 					remed = False
+					if hasarg("--autoremove") or hasarg("--autoreact"):
+						shouldremove = "y"
+					elif hasarg("--reportonly") == True:
+						shouldremove = 'n'
+					else:
+						shouldremove = input("Remove (y/n): ")
 					try:
-						if input("Remove (y/n): ") == 'y':
+						if shouldremove == "y":
 							try:
 								import subprocess
 								subprocess.run("taskkill /F /IM \"{}\"".format(file),shell=True)
@@ -70,6 +91,7 @@ for root,dirs,files in os.walk(dirtoscan):
 								print("Process {} ended. Removing file...".format(file))
 							os.remove(os.path.join(root,file))
 							remed = True
+						print(shouldremove)
 					except:
 						try:
 							import subprocess
@@ -85,31 +107,46 @@ for root,dirs,files in os.walk(dirtoscan):
 			print(err)
 		try:
 			if file.endswith(".zip"):
-				def zipf(zf,contents):
-					try:
-						print(zf)
-						sha256f = sha256(contents.read()).hexdigest()
-						for sig in newsigs:
-							if sha256f in newsigs[sig]:
-								print("File {} in {} has been detected as {}".format(zf,root,sig))
-								remed = False
-								try:
-									if input("Remove (y/n): ") == 'y':
-										try:
-											import subprocess
-											subprocess.run("taskkill /F /IM \"{}\"".format(zf),shell=True)
-										except:
-											pass
-										else:
-											print("Process {} ended. Removing file...".format(file))
-									os.remove(os.path.join(os.path.join(root,file),zf))
-									remed = True
-								except Exception as err:
-									print("Failed to remove file: {}".format(err))
-								detectedfiles.append({"path":os.path.join(root,file),"detection":sig,"rem":remed})
-					except Exception as err:
-						print(err)
-				ZipScan(os.path.join(root,file),zipf)
+				import zipfile
+				zip = zipfile.ZipFile(os.path.join(root,file))
+				print(zip)
+				hasmalware = False
+				try:
+					for zfile in zip.namelist():
+						try:
+							sha256f = sha256(open(zfile,"rb").read()).hexdigest()
+							for sig in newsigs:
+								if sha256f in newsigs[sig]:
+									hasmalware = True
+						except:
+							pass
+				except:
+					pass
+				zip.close()
+				if hasmalware == True and hasarg("--reportonly") == True:
+					print("Zip file {} in {} has malware files in it".format(file,root))
+				if hasmalware == True and hasarg("--reportonly") == False:
+					shoulddisinfect = input("Zip file {} in {} has malware files in it. Remove malware files? (y/n)".format(file,root))
+					zin = zipfile.ZipFile (os.path.join(root,file), 'r')
+					zout = zipfile.ZipFile (os.path.join(root,file) + ".TMPX", 'w')
+					for item in zin.infolist():
+						try:
+							buffer = zin.read(item.filename)
+							sha256f = sha256(buffer).hexdigest()
+							filemal = False
+							for sig in newsigs:
+								if sha256f in newsigs[sig]:
+									filemal = True
+							if filemal == False:
+								zout.writestr(item, buffer)
+						except:
+							pass
+					zout.close()
+					zin.close()
+					sleep(2)
+					os.remove(os.path.join(root,file))
+					sleep(1)
+					os.rename(os.path.join(root,file) + ".TMPX",os.path.join(root,file))
 		except Exception as err:
 			print(err)
 				
