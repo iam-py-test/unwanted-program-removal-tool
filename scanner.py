@@ -17,7 +17,7 @@ except:
 import json
 from hashlib import sha256
 
-version = 1.1
+version = 1.2
 
 def ZipScan(filename,ffunc):
 	import zipfile
@@ -25,11 +25,13 @@ def ZipScan(filename,ffunc):
 	print(zip)
 	for file in zip.namelist():
 		ffunc(file,zip.open(file,"r"))
+
 def getarg(pos=1):
 	try:
 		return sys.argv[pos]
 	except:
 		return None
+
 def hasarg(arg):
 	try:
 		return arg in sys.argv
@@ -91,7 +93,6 @@ for root,dirs,files in os.walk(dirtoscan):
 								print("Process {} ended. Removing file...".format(file))
 							os.remove(os.path.join(root,file))
 							remed = True
-						print(shouldremove)
 					except:
 						try:
 							import subprocess
@@ -109,7 +110,6 @@ for root,dirs,files in os.walk(dirtoscan):
 			if file.endswith(".zip"):
 				import zipfile
 				zip = zipfile.ZipFile(os.path.join(root,file))
-				print(zip)
 				hasmalware = False
 				try:
 					for zfile in zip.namelist():
