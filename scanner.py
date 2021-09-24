@@ -37,8 +37,13 @@ def hasarg(arg):
 		return arg in sys.argv
 	except:
 		return False
-			
 
+def debugerror(err):
+	if hasarg("--debug"):
+		print("UPRT Debug: Error {} encountered and handled".format(err))
+
+if hasarg("--debug"):
+	print("UPRT Debug: Running in Debug Mode")
 if sys.platform.startswith("win") and hasarg("-noadmin") == False:
 	try:
 		import ctypes
@@ -55,7 +60,7 @@ if sys.platform.startswith("win") and hasarg("-noadmin") == False:
 			ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
 			sys.exit()
 	except Exception as err:
-		print(err)
+		debugerror(err)
 
 dirtoscan = input("Enter to dir to scan: ")
 
@@ -114,14 +119,14 @@ for root,dirs,files in os.walk(dirtoscan):
 				try:
 					for zfile in zip.namelist():
 						try:
-							sha256f = sha256(open(zfile,"rb").read()).hexdigest()
+							sha256f = sha256(zip.open(zfile,"r").read()).hexdigest()
 							for sig in newsigs:
 								if sha256f in newsigs[sig]:
 									hasmalware = True
-						except:
-							pass
-				except:
-					pass
+						except Exception as err:
+							debugerror(err)
+				except Exception as err:
+					debugerror(err)
 				zip.close()
 				if hasmalware == True and hasarg("--reportonly") == True:
 					print("Zip file {} in {} has malware files in it".format(file,root))
@@ -147,12 +152,19 @@ for root,dirs,files in os.walk(dirtoscan):
 					os.remove(os.path.join(root,file))
 					sleep(1)
 					os.rename(os.path.join(root,file) + ".TMPX",os.path.join(root,file))
+					detectedfiles.append({"path":root,"file":file,"detection":sig,"rem":True,"iszip":True})
 		except Exception as err:
-			print(err)
+			debugerror(err)
 				
  
 print("\n\n\nDetected malware:\n")
 for detection in detectedfiles:
+	try:
+		if detection["iszip"] == True and detection["rem"] == True:
+			print("Zip {} in {} contained malware and was disinfected".format(detection["file"],detection["path"]))
+			continue
+	except:
+		pass
 	if detection["rem"] == True:
 		print("{} was detected as {} and removed".format(detection["path"],detection["detection"]))
 	else:
