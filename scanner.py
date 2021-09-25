@@ -69,17 +69,20 @@ try:
 	heurrules = json.loads(requests.get("https://raw.githubusercontent.com/iam-py-test/unwanted-program-removal-tool/main/heur.json").text)
 except Exception as err:
 	debugerror(err)
-else:
-	print(heurrules)
+
 def checkheur(root="/",filename=""):
 	try:
+		ismal = False
 		for rule in heurrules:
+			ismal = False
 			sha256f = sha256(open(os.path.join(root,filename),"rb").read()).hexdigest()
 			if sha256f in rule["rule"]["include_sha256s"]:
+				ismal = True
 				for namebit in rule["rule"]["exclude_filename_includes"]:
-					print(namebit)
-					if namebit in filename:
-						return "Heuristics:Threat." + rule["detection_name"]
+					if namebit in filename.lower():
+						ismal = False
+			if ismal == True:
+				return "Heuristics:Threat." + rule["detection_name"]
 	except Exception as err:
 		debugerror(err)
 	return False
@@ -176,9 +179,26 @@ for root,dirs,files in os.walk(dirtoscan):
 			debugerror(err)
 		try:
 			name = checkheur(root,file)
-			print(name)
 			if name != False:
 				print("File {} in {} is detected as {}".format(file,root,name))
+				if hasarg("--autoremove") or hasarg("--autoreact"):
+					shouldremove = "y"
+				elif hasarg("--reportonly") == True:
+					shouldremove = 'n'
+				else:
+					shouldremove = input("Remove (y/n): ")
+				if shouldremove == "y":
+					try:
+						import subprocess 
+						subprocess.run("taskkill /F /IM \"{}\"".format(file))
+					except:
+						pass
+					try:
+						os.remove(os.path.join(root,file))
+						detectedfiles.append({"path":os.path.join(root,file),"detection":name,"rem":True})
+					except:
+						print("Failed to remove threat")
+						detectedfiles.append({"path":os.path.join(root,file),"detection":name,"rem":False})
 		except:
 			pass
 				
