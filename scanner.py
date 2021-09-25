@@ -72,7 +72,17 @@ except Exception as err:
 else:
 	print(heurrules)
 def checkheur(root="/",filename=""):
-	print(root,filename)
+	try:
+		for rule in heurrules:
+			sha256f = sha256(open(os.path.join(root,filename),"rb").read()).hexdigest()
+			if sha256f in rule["rule"]["include_sha256s"]:
+				for namebit in rule["rule"]["exclude_filename_includes"]:
+					if namebit in filename:
+						return "Heuristics:Threat." + rule["detection_name"]
+	except Exception as err:
+		debugerror(err)
+	return False
+
 detectedfiles = []
 
 newsigs = {}
@@ -163,6 +173,12 @@ for root,dirs,files in os.walk(dirtoscan):
 					detectedfiles.append({"path":root,"file":file,"detection":sig,"rem":True,"iszip":True})
 		except Exception as err:
 			debugerror(err)
+		try:
+			name = checkheur(root,file)
+			if name != False:
+				print("File {} in {} is detected as {}".format(file,root,name))
+		except:
+			pass
 				
  
 print("\n\n\nDetected malware:\n")
