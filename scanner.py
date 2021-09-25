@@ -77,6 +77,7 @@ def checkheur(root="/",filename=""):
 			sha256f = sha256(open(os.path.join(root,filename),"rb").read()).hexdigest()
 			if sha256f in rule["rule"]["include_sha256s"]:
 				for namebit in rule["rule"]["exclude_filename_includes"]:
+					print(namebit)
 					if namebit in filename:
 						return "Heuristics:Threat." + rule["detection_name"]
 	except Exception as err:
@@ -175,6 +176,7 @@ for root,dirs,files in os.walk(dirtoscan):
 			debugerror(err)
 		try:
 			name = checkheur(root,file)
+			print(name)
 			if name != False:
 				print("File {} in {} is detected as {}".format(file,root,name))
 		except:
