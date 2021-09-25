@@ -65,6 +65,14 @@ if sys.platform.startswith("win") and hasarg("-noadmin") == False:
 dirtoscan = input("Enter to dir to scan: ")
 
 sigs = json.loads(requests.get('https://raw.githubusercontent.com/iam-py-test/unwanted-program-removal-tool/main/sha256_sigs.json').text)
+try:
+	heurrules = json.loads(requests.get("https://raw.githubusercontent.com/iam-py-test/unwanted-program-removal-tool/main/heur.json").text)
+except Exception as err:
+	debugerror(err)
+else:
+	print(heurrules)
+def checkheur(root="/",filename=""):
+	print(root,filename)
 detectedfiles = []
 
 newsigs = {}
