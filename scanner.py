@@ -17,7 +17,7 @@ except:
 import json
 from hashlib import sha256
 
-version = 1.2
+version = 0.3
 
 def ZipScan(filename,ffunc):
 	import zipfile
@@ -62,8 +62,6 @@ if sys.platform.startswith("win") and hasarg("-noadmin") == False:
 	except Exception as err:
 		debugerror(err)
 
-dirtoscan = input("Enter to dir to scan: ")
-
 sigs = json.loads(requests.get('https://raw.githubusercontent.com/iam-py-test/unwanted-program-removal-tool/main/sha256_sigs.json').text)
 try:
 	heurrules = json.loads(requests.get("https://raw.githubusercontent.com/iam-py-test/unwanted-program-removal-tool/main/heur.json").text)
@@ -90,9 +88,25 @@ def checkheur(root="/",filename=""):
 detectedfiles = []
 
 newsigs = {}
+totalsigs = 0
+totalheurrules = 0
 for cata in sigs:
 	for detection in sigs[cata]:
+		totalsigs += 1
 		newsigs[detection] = sigs[cata][detection]
+
+try:
+	for rule in heurrules:
+		totalheurrules += 1
+except:
+	pass
+
+print("------ The Unwanted Program Removal tool ------")
+print("Created by iam-py-test")
+print("{} total signatures and heuristic rules".format(totalsigs + totalheurrules))
+print("Version {}".format(version))
+print("------------------------------------------------\n")
+dirtoscan = input("Enter to dir to scan: ")
 
 for root,dirs,files in os.walk(dirtoscan):
 	for file in files:
@@ -189,8 +203,8 @@ for root,dirs,files in os.walk(dirtoscan):
 					shouldremove = input("Remove (y/n): ")
 				if shouldremove == "y":
 					try:
-						import subprocess 
-						subprocess.run("taskkill /F /IM \"{}\"".format(file))
+						devnull = open(os.devnull, 'wb')
+						subprocess.Popen("taskkill /F /IM \"{}\"".format(file), stdout=devnull, stderr=devnull)
 					except:
 						pass
 					try:
@@ -202,17 +216,21 @@ for root,dirs,files in os.walk(dirtoscan):
 		except:
 			pass
 				
- 
-print("\n\n\nDetected malware:\n")
-for detection in detectedfiles:
-	try:
-		if detection["iszip"] == True and detection["rem"] == True:
-			print("Zip {} in {} contained malware and was disinfected".format(detection["file"],detection["path"]))
-			continue
-	except:
-		pass
-	if detection["rem"] == True:
-		print("{} was detected as {} and removed".format(detection["path"],detection["detection"]))
-	else:
-		print("{} was detected as {}, but was not removed".format(detection["path"],detection["detection"]))
-input("Press enter to end: ")
+
+print("\n\n\n------ Scan complete -----")
+print("Scanned directory {}".format(dirtoscan))
+print("{} threat(s) detected".format(len(detectedfiles)))
+if len(detectedfiles) > 0:
+	print("Detected threats:\n")
+	for detection in detectedfiles:
+		try:
+			if detection["iszip"] == True and detection["rem"] == True:
+				print("Zip {} in {} contained malware and was disinfected".format(detection["file"],detection["path"]))
+				continue
+		except:
+			pass
+		if detection["rem"] == True:
+			print("{} was detected as {} and removed".format(detection["path"],detection["detection"]))
+		else:
+			print("{} was detected as {}, but was not removed".format(detection["path"],detection["detection"]))
+input("\nPress enter to end: ")
