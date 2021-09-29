@@ -116,6 +116,9 @@
   "Riskware":{
     "Riskware.MacOS.netlockexploit":["9bb6ce7cb19b779bc53b8d14ff95da0ddc37be1f383ff47d9186a3b7c1660844"]
   },
+  "JokeProgram":{
+  "JokeProgram.TPSChallo":["887ba691653fc5a6a91ea58a5993d0e999a4efc285dc10e21bca2bf0de7fe029"]
+},
   "Adware":{
     "Adware.Generic.Android.1":["dc22b7fe6bf502b620b1e84095e26ff31d428744678cb6b2ad7af46ec740c236","220a54fd7c19f8ae56c8fd01d5c69fd4093075de3eda01e91f9168385d909583"],
     "Adware.Generic.Android.2":["237149d26b25c2dba212eae322b6b4ce8f03c93e093e4cb41ee9fdfb25e124ba","be15d542b33ea5c3ffac7615195f183b86b770ea63376ded99021e624ac3c1da"],
