@@ -16,6 +16,7 @@
     "rm_steps":["kill","del"]
 },
   "JokeProgram.TPSChallo":{
-  "desc":"JokeProgram.TPSChallo is a joke program created by The PC Security Channel (see https://www.youtube.com/watch?v=TtKlue9t2JU).\nThis program has two options - 'trick' and 'treat'. \nClicking 'trick' will cause the program to lock the screen, while 'treat' will subscribe you to the creator's YouTube channel.\nThe screenlocker does not presist reboot. To escape, just reboot your computer.\nThis program is detected by most antiviruses - see https://www.virustotal.com/gui/file/887ba691653fc5a6a91ea58a5993d0e999a4efc285dc10e21bca2bf0de7fe029?"
+  "desc":"JokeProgram.TPSChallo is a joke program created by The PC Security Channel (see https://www.youtube.com/watch?v=TtKlue9t2JU).\nThis program has two options - 'trick' and 'treat'. \nClicking 'trick' will cause the program to lock the screen, while 'treat' will subscribe you to the creator's YouTube channel.\nThe screenlocker does not presist reboot. To escape, just reboot your computer.\nThis program is detected by most antiviruses - see https://www.virustotal.com/gui/file/887ba691653fc5a6a91ea58a5993d0e999a4efc285dc10e21bca2bf0de7fe029?",
+  "threat_level":"low"
 }
 }
