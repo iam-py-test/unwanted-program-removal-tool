@@ -62,11 +62,36 @@ if sys.platform.startswith("win") and hasarg("-noadmin") == False:
 	except Exception as err:
 		debugerror(err)
 
-sigs = json.loads(requests.get('https://raw.githubusercontent.com/iam-py-test/unwanted-program-removal-tool/main/sha256_sigs.json').text)
-try:
-	heurrules = json.loads(requests.get("https://raw.githubusercontent.com/iam-py-test/unwanted-program-removal-tool/main/heur.json").text)
-except Exception as err:
-	debugerror(err)
+sigs = {"test":{"test":[]}}
+heurrules = {}
+def loadsigs():
+	global heurrules 
+	global sigs
+	if hasarg("--loadsigfile") == True:
+		sigfile = input("Enter the name of the sig file: ")
+		try:
+			sigs = json.loads(open(sigfile).read())
+		except:
+			print("Error in loading signatures from file. Verify the file exists, and uses valid syntax")
+			input("Press enter to end")
+			return False
+		heurfile = input("Enter the name of the heuristic rules file (leave empty to disable): ")
+		if heurfile == "":
+			print("Not using heuristics")
+			heurrules = {}
+		else:
+			try:
+				heurrules = json.loads(open(heurfile).read())
+			except:
+				print("Failed to load heur rule file")
+				heurrules = {}
+		print("\n")
+	else:
+		sigs = json.loads(requests.get('https://raw.githubusercontent.com/iam-py-test/unwanted-program-removal-tool/main/sha256_sigs.json').text)
+		try:
+			heurrules = json.loads(requests.get("https://raw.githubusercontent.com/iam-py-test/unwanted-program-removal-tool/main/heur.json").text)
+		except Exception as err:
+			debugerror(err)
 
 def checkheur(root="/",filename=""):
 	try:
@@ -86,10 +111,14 @@ def checkheur(root="/",filename=""):
 	return False
 
 detectedfiles = []
+filesscanned = 0
 
 newsigs = {}
 totalsigs = 0
 totalheurrules = 0
+
+loadsigs()
+
 for cata in sigs:
 	for detection in sigs[cata]:
 		totalsigs += 1
@@ -112,6 +141,7 @@ for root,dirs,files in os.walk(dirtoscan):
 	for file in files:
 		try:
 			sha256f = sha256(open(os.path.join(root,file),"rb").read()).hexdigest()
+			filesscanned += 1
 			for sig in newsigs:
 				if sha256f in newsigs[sig]:
 					if hasarg("--autoreact") == False:
@@ -219,6 +249,7 @@ for root,dirs,files in os.walk(dirtoscan):
 
 print("\n\n\n------ Scan complete -----")
 print("Scanned directory {}".format(dirtoscan))
+print("{} files scanned".format(filesscanned))
 print("{} threat(s) detected".format(len(detectedfiles)))
 if len(detectedfiles) > 0:
 	print("Detected threats:\n")
