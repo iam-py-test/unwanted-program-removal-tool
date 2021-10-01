@@ -20,7 +20,7 @@
   "threat_level":"low"
 },
 "Trojan.Linux.generic.2":{
-  "desc":"Trojan.Linux.generic.2 is a malicious program targetted at Linux systems.\nThis threat was primarily spread through a compromised NPM package.\nThis program may preform cryptomining, but due to the nature of how it was propagated, it has been classified as a trojan.\nFor more information, see https://www.virustotal.com/gui/file/28d5f75e289d652061c754079b23ec372da2e8feb1066a3d57381163b614c06c/detection and https://github.com/conventional-changelog/conventional-changelog/issues/282.",
+  "desc":"Trojan.Linux.generic.2 is a malicious program targeted at Linux systems.\nThis threat was primarily spread through a compromised NPM package.\nThis program may preform cryptomining, but due to the nature of how it was propagated, it has been classified as a trojan.\nFor more information, see https://www.virustotal.com/gui/file/28d5f75e289d652061c754079b23ec372da2e8feb1066a3d57381163b614c06c/detection and https://github.com/conventional-changelog/conventional-changelog/issues/282.",
   "threat_level":"high"
 }
 }
