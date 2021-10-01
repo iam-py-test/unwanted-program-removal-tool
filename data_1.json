@@ -18,5 +18,9 @@
   "JokeProgram.TPSChallo":{
   "desc":"JokeProgram.TPSChallo is a joke program created by The PC Security Channel (see https://www.youtube.com/watch?v=TtKlue9t2JU).\nThis program has two options - 'trick' and 'treat'. \nClicking 'trick' will cause the program to lock the screen, while 'treat' will subscribe you to the creator's YouTube channel.\nThe screenlocker does not presist reboot. To escape, just reboot your computer.\nThis program is detected by most antiviruses - see https://www.virustotal.com/gui/file/887ba691653fc5a6a91ea58a5993d0e999a4efc285dc10e21bca2bf0de7fe029?",
   "threat_level":"low"
+},
+"Trojan.Linux.generic.2":{
+  "desc":"Trojan.Linux.generic.2 is a malicious program targetted at Linux systems.\nThis threat was primarily spread through a compromised NPM package.\nThis program may preform cryptomining, but due to the nature of how it was propagated, it has been classified as a trojan.\nFor more information, see https://www.virustotal.com/gui/file/28d5f75e289d652061c754079b23ec372da2e8feb1066a3d57381163b614c06c/detection and https://github.com/conventional-changelog/conventional-changelog/issues/282.",
+  "threat_level":"high"
 }
 }
