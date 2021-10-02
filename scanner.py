@@ -150,6 +150,7 @@ filesscanned = 0
 newsigs = {}
 totalsigs = 0
 totalheurrules = 0
+scandone = False
 
 loadsigs()
 
@@ -169,119 +170,131 @@ print("Created by iam-py-test")
 print("{} total signatures and heuristic rules".format(totalsigs + totalheurrules))
 print("Version {}".format(version))
 print("------------------------------------------------\n")
-dirtoscan = input("Enter to dir to scan: ")
+try:
+	dirtoscan = input("Enter to dir to scan: ")
+except:
+	print("\n\n------ Scan terminated ------\n")
+	input("Press enter to end: ")
+	sys.exit()
 
-for root,dirs,files in os.walk(dirtoscan):
-	for file in files:
-		try:
-			sha256f = sha256(open(os.path.join(root,file),"rb").read()).hexdigest()
-			filesscanned += 1
-			for sig in newsigs:
-				if sha256f in newsigs[sig]:
-					if hasarg("--autoreact") == False:
-						print("File {} in {} has been detected as {}".format(file,root,sig))
-					remed = False
+try:
+	for root,dirs,files in os.walk(dirtoscan):
+		for file in files:
+			try:
+				sha256f = sha256(open(os.path.join(root,file),"rb").read()).hexdigest()
+				filesscanned += 1
+				for sig in newsigs:
+					if sha256f in newsigs[sig]:
+						if hasarg("--autoreact") == False:
+							print("File {} in {} has been detected as {}".format(file,root,sig))
+						remed = False
+						if hasarg("--autoremove") or hasarg("--autoreact"):
+							shouldremove = "y"
+						elif hasarg("--reportonly") == True:
+							shouldremove = 'n'
+						else:
+							shouldremove = input("Remove (y/n): ")
+						try:
+							if shouldremove == "y":
+								try:
+									import subprocess
+									subprocess.run("taskkill /F /IM \"{}\"".format(file),shell=True)
+								except:
+									pass
+								else:
+									print("Process {} ended. Removing file...".format(file))
+								os.remove(os.path.join(root,file))
+								remed = True
+						except:
+							try:
+								import subprocess
+								subprocess.run("taskkill /F /IM \"{}\"".format(file),shell=True)
+								sleep(5)
+								os.remove(os.path.join(root,file))
+								remed = True
+							except Exception  as err:
+								print("Failed to remove file: {}".format(err))
+						detectedfiles.append({"path":os.path.join(root,file),"detection":sig,"rem":remed})
+
+			except Exception as err:
+				print(err)
+			try:
+				if file.endswith(".zip"):
+					import zipfile
+					zip = zipfile.ZipFile(os.path.join(root,file))
+					hasmalware = False
+					try:
+						for zfile in zip.namelist():
+							try:
+								sha256f = sha256(zip.open(zfile,"r").read()).hexdigest()
+								for sig in newsigs:
+									if sha256f in newsigs[sig]:
+										hasmalware = True
+							except Exception as err:
+								debugerror(err)
+					except Exception as err:
+						debugerror(err)
+					zip.close()
+					if hasmalware == True and hasarg("--reportonly") == True:
+						print("Zip file {} in {} has malware files in it".format(file,root))
+					if hasmalware == True and hasarg("--reportonly") == False:
+						shoulddisinfect = input("Zip file {} in {} has malware files in it. Remove malware files? (y/n)".format(file,root))
+						zin = zipfile.ZipFile (os.path.join(root,file), 'r')
+						zout = zipfile.ZipFile (os.path.join(root,file) + ".TMPX", 'w')
+						for item in zin.infolist():
+							try:
+								buffer = zin.read(item.filename)
+								sha256f = sha256(buffer).hexdigest()
+								filemal = False
+								for sig in newsigs:
+									if sha256f in newsigs[sig]:
+										filemal = True
+								if filemal == False:
+									zout.writestr(item, buffer)
+							except:
+								pass
+						zout.close()
+						zin.close()
+						sleep(2)
+						os.remove(os.path.join(root,file))
+						sleep(1)
+						os.rename(os.path.join(root,file) + ".TMPX",os.path.join(root,file))
+						detectedfiles.append({"path":root,"file":file,"detection":sig,"rem":True,"iszip":True})
+			except Exception as err:
+				debugerror(err)
+			try:
+				name = checkheur(root,file)
+				if name != False:
+					print("File {} in {} is detected as {}".format(file,root,name))
 					if hasarg("--autoremove") or hasarg("--autoreact"):
 						shouldremove = "y"
 					elif hasarg("--reportonly") == True:
 						shouldremove = 'n'
 					else:
 						shouldremove = input("Remove (y/n): ")
-					try:
-						if shouldremove == "y":
-							try:
-								import subprocess
-								subprocess.run("taskkill /F /IM \"{}\"".format(file),shell=True)
-							except:
-								pass
-							else:
-								print("Process {} ended. Removing file...".format(file))
-							os.remove(os.path.join(root,file))
-							remed = True
-					except:
+					if shouldremove == "y":
 						try:
-							import subprocess
-							subprocess.run("taskkill /F /IM \"{}\"".format(file),shell=True)
-							sleep(5)
-							os.remove(os.path.join(root,file))
-							remed = True
-						except Exception  as err:
-							print("Failed to remove file: {}".format(err))
-					detectedfiles.append({"path":os.path.join(root,file),"detection":sig,"rem":remed})
-
-		except Exception as err:
-			print(err)
-		try:
-			if file.endswith(".zip"):
-				import zipfile
-				zip = zipfile.ZipFile(os.path.join(root,file))
-				hasmalware = False
-				try:
-					for zfile in zip.namelist():
-						try:
-							sha256f = sha256(zip.open(zfile,"r").read()).hexdigest()
-							for sig in newsigs:
-								if sha256f in newsigs[sig]:
-									hasmalware = True
-						except Exception as err:
-							debugerror(err)
-				except Exception as err:
-					debugerror(err)
-				zip.close()
-				if hasmalware == True and hasarg("--reportonly") == True:
-					print("Zip file {} in {} has malware files in it".format(file,root))
-				if hasmalware == True and hasarg("--reportonly") == False:
-					shoulddisinfect = input("Zip file {} in {} has malware files in it. Remove malware files? (y/n)".format(file,root))
-					zin = zipfile.ZipFile (os.path.join(root,file), 'r')
-					zout = zipfile.ZipFile (os.path.join(root,file) + ".TMPX", 'w')
-					for item in zin.infolist():
-						try:
-							buffer = zin.read(item.filename)
-							sha256f = sha256(buffer).hexdigest()
-							filemal = False
-							for sig in newsigs:
-								if sha256f in newsigs[sig]:
-									filemal = True
-							if filemal == False:
-								zout.writestr(item, buffer)
+							devnull = open(os.devnull, 'wb')
+							subprocess.Popen("taskkill /F /IM \"{}\"".format(file), stdout=devnull, stderr=devnull)
 						except:
 							pass
-					zout.close()
-					zin.close()
-					sleep(2)
-					os.remove(os.path.join(root,file))
-					sleep(1)
-					os.rename(os.path.join(root,file) + ".TMPX",os.path.join(root,file))
-					detectedfiles.append({"path":root,"file":file,"detection":sig,"rem":True,"iszip":True})
-		except Exception as err:
-			debugerror(err)
-		try:
-			name = checkheur(root,file)
-			if name != False:
-				print("File {} in {} is detected as {}".format(file,root,name))
-				if hasarg("--autoremove") or hasarg("--autoreact"):
-					shouldremove = "y"
-				elif hasarg("--reportonly") == True:
-					shouldremove = 'n'
-				else:
-					shouldremove = input("Remove (y/n): ")
-				if shouldremove == "y":
-					try:
-						devnull = open(os.devnull, 'wb')
-						subprocess.Popen("taskkill /F /IM \"{}\"".format(file), stdout=devnull, stderr=devnull)
-					except:
-						pass
-					try:
-						os.remove(os.path.join(root,file))
-						detectedfiles.append({"path":os.path.join(root,file),"detection":name,"rem":True})
-					except:
-						print("Failed to remove threat")
-						detectedfiles.append({"path":os.path.join(root,file),"detection":name,"rem":False})
-		except:
-			pass
-				
+						try:
+							os.remove(os.path.join(root,file))
+							detectedfiles.append({"path":os.path.join(root,file),"detection":name,"rem":True})
+						except:
+							print("Failed to remove threat")
+							detectedfiles.append({"path":os.path.join(root,file),"detection":name,"rem":False})
+			except:
+				pass
+except:
+	scandone = False
+else:
+	scandone = True
 
-print("\n\n\n------ Scan complete -----")
+if scandone == True:
+	print("\n\n\n------ Scan complete -----")
+else:
+	print("\n\n\n------ Scan ended -----")
 print("Scanned directory {}".format(dirtoscan))
 print("{} files scanned".format(filesscanned))
 print("{} threat(s) detected".format(len(detectedfiles)))
