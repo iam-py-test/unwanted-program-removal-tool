@@ -64,9 +64,11 @@ if sys.platform.startswith("win") and hasarg("-noadmin") == False:
 
 sigs = {"test":{"test":[]}}
 heurrules = {}
+maldomains = []
 def loadsigs():
 	global heurrules 
 	global sigs
+	global maldomains
 	if hasarg("--loadsigfile") == True:
 		sigfile = input("Enter the name of the sig file: ")
 		try:
@@ -92,6 +94,10 @@ def loadsigs():
 			heurrules = json.loads(requests.get("https://raw.githubusercontent.com/iam-py-test/unwanted-program-removal-tool/main/heur.json").text)
 		except Exception as err:
 			debugerror(err)
+	try:
+		maldomains = requests.get("https://raw.githubusercontent.com/iam-py-test/my_filters_001/main/Alternative%20list%20formats/antimalware_domains.txt").text.split("\n")
+	except:
+		maldomains = []
 
 def checkheur(root="/",filename=""):
 	try:
@@ -109,6 +115,34 @@ def checkheur(root="/",filename=""):
 	except Exception as err:
 		debugerror(err)
 	return False
+
+def scanforfake():
+	if sys.platform.startswith("win"):
+		try:
+			print(os.getenv("LOCALAPPDATA"))
+			for root,dirs,files in os.walk(os.getenv("LOCALAPPDATA") + "\\Microsoft\\Edge\\User Data\\"):
+				for dir in dirs:
+					try:
+						for root2,dirs2,files2 in os.walk(os.path.join(root,dir)):
+							for dir2 in dirs2:
+								if dir2.endswith("Platform Notifications"):
+									import codecs
+									nfile = codecs.open(os.path.join(root2,dir2) + "\\000003.log","r",encoding="utf-8",errors="ignore").read()
+									for domain in maldomains:
+										if domain in nfile:
+											return True
+					except Exception as err:
+						print("ERR point 2: ",err)
+		except Exception as err:
+			print(err)
+		return False
+
+if hasarg("--nscan") == True:
+	resultnote = scanforfake()
+	if resultnote == True:
+		print("Malware notification setting found")
+	else:
+		print("No malware notification settings found")
 
 detectedfiles = []
 filesscanned = 0
