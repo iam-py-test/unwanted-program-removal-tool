@@ -7,7 +7,7 @@ except:
 	import subprocess
 	try:
 		subprocess.run("pip3 install requests",shell=True)
-		sleep(2)
+		sleep(3)
 		import requests
 	except:
 		try:
@@ -17,7 +17,7 @@ except:
 import json
 from hashlib import sha256
 
-version = 0.3
+version = 0.4
 
 def ZipScan(filename,ffunc):
 	import zipfile
@@ -40,7 +40,7 @@ def hasarg(arg):
 
 def debugerror(err):
 	if hasarg("--debug"):
-		print("UPRT Debug: Error {} encountered and handled".format(err))
+		print("UPRT Debug: Error \"{}\" encountered and handled".format(err))
 
 if hasarg("--debug"):
 	print("UPRT Debug: Running in Debug Mode")
@@ -162,8 +162,8 @@ for cata in sigs:
 try:
 	for rule in heurrules:
 		totalheurrules += 1
-except:
-	pass
+except Exception as err:
+	debugerror(err)
 
 print("------ The Unwanted Program Removal tool ------")
 print("Created by iam-py-test")
@@ -199,8 +199,8 @@ try:
 								try:
 									import subprocess
 									subprocess.run("taskkill /F /IM \"{}\"".format(file),shell=True)
-								except:
-									pass
+								except Exception as err:
+									debugerror(err)
 								else:
 									print("Process {} ended. Removing file...".format(file))
 								os.remove(os.path.join(root,file))
@@ -212,12 +212,12 @@ try:
 								sleep(5)
 								os.remove(os.path.join(root,file))
 								remed = True
-							except Exception  as err:
+							except Exception as err:
 								print("Failed to remove file: {}".format(err))
 						detectedfiles.append({"path":os.path.join(root,file),"detection":sig,"rem":remed})
 
 			except Exception as err:
-				print(err)
+				debugerror(err)
 			try:
 				if file.endswith(".zip"):
 					import zipfile
