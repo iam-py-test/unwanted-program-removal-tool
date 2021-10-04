@@ -1,13 +1,13 @@
 import os
 import sys
-from time import sleep
+import subprocess
+import time
 try:
 	import requests
 except:
-	import subprocess
 	try:
 		subprocess.run("pip3 install requests",shell=True)
-		sleep(3)
+		time.sleep(3)
 		import requests
 	except:
 		try:
@@ -38,9 +38,9 @@ def hasarg(arg):
 	except:
 		return False
 
-def debugerror(err):
+def debugerror(err,context1="N/A",context2="N/A"):
 	if hasarg("--debug"):
-		print("UPRT Debug: Error \"{}\" encountered and handled".format(err))
+		print("UPRT Debug: Error \"{}\" encountered and handled. Additional info: '{}' and '{}' ".format(err,context1,context2))
 
 if hasarg("--debug"):
 	print("UPRT Debug: Running in Debug Mode")
@@ -169,13 +169,15 @@ print("------ The Unwanted Program Removal tool ------")
 print("Created by iam-py-test")
 print("{} total signatures and heuristic rules".format(totalsigs + totalheurrules))
 print("Version {}".format(version))
-print("------------------------------------------------\n")
+print("-----------------------------------------------\n")
 try:
 	dirtoscan = input("Enter to dir to scan: ")
 except:
 	print("\n\n------ Scan terminated ------\n")
 	input("Press enter to end: ")
 	sys.exit()
+
+start_time = time.time()
 
 try:
 	for root,dirs,files in os.walk(dirtoscan):
@@ -197,19 +199,19 @@ try:
 						try:
 							if shouldremove == "y":
 								try:
-									import subprocess
-									subprocess.run("taskkill /F /IM \"{}\"".format(file),shell=True)
+									devnull = open(os.devnull, 'wb')
+									subprocess.Popen("taskkill /F /IM \"{}\"".format(file), stdout=devnull, stderr=devnull)
 								except Exception as err:
 									debugerror(err)
-								else:
-									print("Process {} ended. Removing file...".format(file))
 								os.remove(os.path.join(root,file))
 								remed = True
 						except:
+							if shouldremove != "y":
+								continue
 							try:
-								import subprocess
-								subprocess.run("taskkill /F /IM \"{}\"".format(file),shell=True)
-								sleep(5)
+								devnull = open(os.devnull, 'wb')
+								subprocess.Popen("taskkill /F /IM \"{}\"".format(file), stdout=devnull, stderr=devnull)
+								time.sleep(5)
 								os.remove(os.path.join(root,file))
 								remed = True
 							except Exception as err:
@@ -255,9 +257,9 @@ try:
 								pass
 						zout.close()
 						zin.close()
-						sleep(2)
+						time.sleep(2)
 						os.remove(os.path.join(root,file))
-						sleep(1)
+						time.sleep(1)
 						os.rename(os.path.join(root,file) + ".TMPX",os.path.join(root,file))
 						detectedfiles.append({"path":root,"file":file,"detection":sig,"rem":True,"iszip":True})
 			except Exception as err:
@@ -295,8 +297,20 @@ if scandone == True:
 	print("\n\n\n------ Scan complete -----")
 else:
 	print("\n\n\n------ Scan ended -----")
+scantime = round(time.time() - start_time)
 print("Scanned directory {}".format(dirtoscan))
 print("{} files scanned".format(filesscanned))
+if scantime == 0:
+	print("Scan took less than one second")
+elif scantime == 1:
+	print("Scan took one second")
+elif scantime < 60:
+	print("Scan took {} seconds".format(scantime))
+else:
+	try:
+		print("Scan took {} minutes".format(round(scantime/60)))
+	except:
+		print("Scan took {} seconds".format(scantime))
 print("{} threat(s) detected".format(len(detectedfiles)))
 if len(detectedfiles) > 0:
 	print("Detected threats:\n")
