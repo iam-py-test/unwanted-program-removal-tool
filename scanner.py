@@ -168,10 +168,13 @@ if hasarg("--disableallowlist") == False:
 else:
 	allowlist = []
 
+catafordetection = {}
+
 for cata in sigs:
 	for detection in sigs[cata]:
 		totalsigs += 1
 		newsigs[detection] = sigs[cata][detection]
+		catafordetection[detection] = cata
 
 try:
 	for rule in heurrules:
@@ -205,6 +208,7 @@ try:
 					if sha256f in newsigs[sig]:
 						if hasarg("--autoreact") == False:
 							print("File {} in {} has been detected as {}".format(file,root,sig))
+							cata = catafordetection[sig]
 						remed = False
 						if hasarg("--autoremove") or hasarg("--autoreact"):
 							shouldremove = "y"
