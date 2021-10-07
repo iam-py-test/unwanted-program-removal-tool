@@ -221,6 +221,7 @@ try:
 								try:
 									devnull = open(os.devnull, 'wb')
 									subprocess.Popen("taskkill /F /IM \"{}\"".format(file), stdout=devnull, stderr=devnull)
+									subprocess.Popen("taskkill /F /IM \"{}\"".format(file), stdout=devnull, stderr=devnull)
 								except Exception as err:
 									debugerror(err)
 								os.remove(os.path.join(root,file))
@@ -232,10 +233,16 @@ try:
 								devnull = open(os.devnull, 'wb')
 								subprocess.Popen("taskkill /F /IM \"{}\"".format(file), stdout=devnull, stderr=devnull)
 								time.sleep(5)
+								subprocess.Popen("taskkill /F /IM \"{}\"".format(file), stdout=devnull, stderr=devnull)
 								os.remove(os.path.join(root,file))
 								remed = True
 							except Exception as err:
-								print("Failed to remove file: {}".format(err))
+								subprocess.Popen("taskkill /F /IM \"{}\"".format(file), stdout=devnull, stderr=devnull)
+								try:
+									os.remove(os.path.join(root,file))
+								except:
+									subprocess.run("taskkill /F /IM \"{}\"".format(file),shell=True)
+									os.remove(os.path.join(root,file))
 						detectedfiles.append({"path":os.path.join(root,file),"detection":sig,"rem":remed})
 
 			except Exception as err:
