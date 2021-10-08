@@ -96,7 +96,12 @@ def loadsigs():
 				heurrules = {}
 		print("\n")
 	else:
-		sigs = json.loads(requests.get('https://raw.githubusercontent.com/iam-py-test/unwanted-program-removal-tool/main/sha256_sigs.json').text)
+		try:
+			sigs = json.loads(requests.get('https://raw.githubusercontent.com/iam-py-test/unwanted-program-removal-tool/main/sha256_sigs.json').text)
+		except:
+			print("Failed to load signatures. Please check your internet connection or try again later. \nIf the problem persists, please report it at https://github.com/iam-py-test/unwanted-program-removal-tool/issues")
+			input()
+			sys.exit()
 		try:
 			heurrules = json.loads(requests.get("https://raw.githubusercontent.com/iam-py-test/unwanted-program-removal-tool/main/heur.json").text)
 		except Exception as err:
