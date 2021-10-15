@@ -119,9 +119,11 @@ def checkheur(root="/",filename=""):
 			sha256f = sha256(open(os.path.join(root,filename),"rb").read()).hexdigest()
 			if sha256f in rule["rule"]["include_sha256s"]:
 				ismal = True
-				for namebit in rule["rule"]["exclude_filename_includes"]:
-					if namebit in filename.lower():
-						ismal = False
+				for rulepart in rule["rule"]:
+					if rulepart == "exclude_filename_includes":
+						for namebit in rule["rule"]["exclude_filename_includes"]:
+							if namebit in filename.lower():
+								ismal = False
 			if ismal == True:
 				return "Heuristics:Threat." + rule["detection_name"]
 	except Exception as err:
@@ -318,6 +320,8 @@ try:
 						except:
 							print("Failed to remove threat")
 							detectedfiles.append({"path":os.path.join(root,file),"detection":name,"rem":False})
+					else:
+						detectedfiles.append({"path":os.path.join(root,file),"detection":name,"rem":False})
 			except:
 				pass
 except:
