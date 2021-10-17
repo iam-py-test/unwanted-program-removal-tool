@@ -18,6 +18,7 @@ except:
 			print(err)
 import json
 from hashlib import sha256
+from urllib.parse import urlparse
 
 version = 0.5
 
@@ -107,8 +108,13 @@ def loadsigs():
 		except Exception as err:
 			debugerror(err)
 	try:
-		maldomains = requests.get("https://raw.githubusercontent.com/iam-py-test/my_filters_001/main/Alternative%20list%20formats/antimalware_domains.txt").text.split("\n")
-	except:
+		iam_py_test_list = requests.get("https://raw.githubusercontent.com/iam-py-test/my_filters_001/main/Alternative%20list%20formats/antimalware_domains.txt").text.split("\n")
+		ip_block = requests.get("https://raw.githubusercontent.com/iam-py-test/my_filters_001/main/Alternative%20list%20formats/antimalware_ips.txt").text.split("\n")
+		dandelion = requests.get("https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareDomains.txt").text.split("\n")
+		urlhaus = requests.get("https://curben.gitlab.io/malware-filter/urlhaus-filter-domains.txt").text.split("\n")
+		maldomains = iam_py_test_list + ip_block + dandelion + urlhaus
+	except Exception as err:
+		debugerror(err)
 		maldomains = []
 
 def checkheur(root="/",filename=""):
@@ -126,6 +132,26 @@ def checkheur(root="/",filename=""):
 								ismal = False
 			if ismal == True:
 				return "Heuristics:Threat." + rule["detection_name"]
+	except Exception as err:
+		debugerror(err)
+	return False
+
+def checkurlfile(root,filename):
+	try:
+		text = open(os.path.join(root,filename)).read()
+		lines = text.split("\n")
+		if "url" in text.lower():
+			for line in lines:
+				if line.lower().startswith("url="):
+					url = line.lower().split("=")
+					url.pop(0)
+					if len(url) > 1:
+						url = url.join("=")
+					else:
+						url = url[0]
+					domain = urlparse(url).netloc
+					if domain in maldomains:
+						return True
 	except Exception as err:
 		debugerror(err)
 	return False
@@ -299,6 +325,26 @@ try:
 			except Exception as err:
 				debugerror(err)
 			try:
+				if file.endswith(".url") or file.endswith(".url.txt"):
+					result = checkurlfile(root,file)
+					if result == True:
+						print("Internet shortcut {} in {} leads to a malicious url".format(file,root))
+						if hasarg("--autoremove") or hasarg("--autoreact"):
+							shouldremove = "y"
+						elif hasarg("--reportonly") == True:
+							shouldremove = 'n'
+						else:
+							shouldremove = input("Remove (y/n): ")
+						if shouldremove == 'y':
+							try:
+								os.remove(os.path.join(root,file))
+								detectedfiles.append({"path":os.path.join(root,file),"detection":"Internet Shortcut reputation scan: Malicious","rem":True})
+							except Exception as err:
+								debugerror(err)
+								detectedfiles.append({"path":os.path.join(root,file),"detection":"Internet Shortcut reputation scan: Malicious","rem":False})
+			except Exception as err:
+				print(err)
+			try:
 				name = checkheur(root,file)
 				if name != False:
 					print("File {} in {} is detected as {}".format(file,root,name))
@@ -358,7 +404,7 @@ if len(detectedfiles) > 0:
 		except:
 			pass
 		if detection["rem"] == True:
-			print("{} was detected as {} and removed".format(detection["path"],detection["detection"]))
+			print("{} was detected as '{}' and removed".format(detection["path"],detection["detection"]))
 		else:
-			print("{} was detected as {}, but was not removed".format(detection["path"],detection["detection"]))
+			print("{} was detected as '{}', but was not removed".format(detection["path"],detection["detection"]))
 input("\nPress enter to end: ")
