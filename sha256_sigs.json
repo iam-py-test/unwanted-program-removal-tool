@@ -220,7 +220,8 @@
   "Trojan.Windows.generic.140":["0e673eb418c87268aa3bcb262e8e03a3f719a95a8e118ba99515c57c9aa02d38"],
   "Trojan.Windows.deceptiveJoke.phenix.js":["02bf13895ff297fa993fbd88e908eb213cc087b429a2ca8977c090140f8bf55e","2d2217882b83360d80a3dd27d8931354b599db72d9aec79ad2660f1e3aa4b422"],
   "Trojan.Windows.generic.141":["cc5be1e0aedbfad82797750cdceffe6b6387e4afc78245e09d0a806f67c9bfc4"],
-  "Trojan.Windows.free-softsnet.1":["d9b62fbea306108718fa0aff46b8fef9831c420fab644e76ea1b95abd6d837f8","0218dd62759681af9aa77bfbd8f43af8de695b7426bb74aecdcd9f25ee53f3da","0391c317614d7e3b64b4f1e32a47d75d878eba8daf24b61d624266c744630bf3"]
+  "Trojan.Windows.free-softsnet.1":["d9b62fbea306108718fa0aff46b8fef9831c420fab644e76ea1b95abd6d837f8","0218dd62759681af9aa77bfbd8f43af8de695b7426bb74aecdcd9f25ee53f3da","0391c317614d7e3b64b4f1e32a47d75d878eba8daf24b61d624266c744630bf3"],
+  "Trojan.Windows.free-softsnet.1.falseAntivirus":["41737946d86e8c2a045ca321eebb01d0dd1ca3cdd67d52d250106573ce210449"]
 },
   "Ransomware":{
   "Ransomware.Windows.benign.testfile":["7c0910e2c2a5b1c4fe94e5bee2e2977532b8344dbddff16c219184c374311249"],
