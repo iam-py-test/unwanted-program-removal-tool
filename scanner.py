@@ -4,16 +4,20 @@ import subprocess
 import time
 try:
 	import requests
+	import filetype
 except:
 	try:
 		devnull = open(os.devnull, 'wb')
 		subprocess.Popen("pip3 install requests", stdout=devnull, stderr=devnull)
+		subprocess.Popen("pip3 install filetype", stdout=devnull, stderr=devnull)
 		time.sleep(1)
 		import requests
+		import filetype
 	except:
 		try:
 			time.sleep(3)
 			import requests
+			import filetype
 		except Exception as err:
 			print(err)
 import json
@@ -117,21 +121,48 @@ def loadsigs():
 		debugerror(err)
 		maldomains = []
 
+def gettypebyext(ext):
+	types = {"image":["jpg","jpeg","png","bmp"], "exe":["exe","bat","cmd","ex_","scr"],"txt":["txt","text"],"python":["py","pyc"],"shortcut":["url"]}
+	for type in types:
+		if ext in types[type]:
+			return type
+	return "unknown"
+	
+
+
 def checkheur(root="/",filename=""):
 	try:
 		ismal = False
 		for rule in heurrules:
-			ismal = False
+			ismal = True
 			sha256f = sha256(open(os.path.join(root,filename),"rb").read()).hexdigest()
-			if sha256f in rule["rule"]["include_sha256s"]:
-				ismal = True
-				for rulepart in rule["rule"]:
-					if rulepart == "exclude_filename_includes":
-						for namebit in rule["rule"]["exclude_filename_includes"]:
-							if namebit in filename.lower():
-								ismal = False
+			for rulepart in rule["rule"]:
+				if rulepart == "exclude_filename_includes":
+					for namebit in rule["rule"]["exclude_filename_includes"]:
+						if namebit in filename.lower():
+							ismal = False
+				if rulepart == "include_sha256s":
+					if sha256f not in rule["rule"][rulepart]:
+						ismal = False
+				if rulepart == "include_file_exttype":
+					try:
+						fileext = os.path.splitext(filename.lower())[1]
+						fileextt = gettypebyext(fileext)
+						if fileextt not in rule["rule"][rulepart]:
+							ismal = False
+					except Exception as err:
+						debugerror(err)
+				if rulepart == "include_file_types":
+					try:
+						type = filetype.guess(filename)
+						if type == None:
+							ismal = False
+						if type.mime not in rule["rule"][rulepart]:
+							ismal = False
+					except Exception as err:
+						debugerror(err)
 			if ismal == True:
-				return "Heuristics:Threat." + rule["detection_name"]
+				return "Heuristics: Threat." + rule["detection_name"]
 	except Exception as err:
 		debugerror(err)
 	return False
@@ -313,8 +344,8 @@ try:
 										filemal = True
 								if filemal == False:
 									zout.writestr(item, buffer)
-							except:
-								pass
+							except Exception as err:
+								print(err)
 						zout.close()
 						zin.close()
 						time.sleep(2)
@@ -358,8 +389,8 @@ try:
 						try:
 							devnull = open(os.devnull, 'wb')
 							subprocess.Popen("taskkill /F /IM \"{}\"".format(file), stdout=devnull, stderr=devnull)
-						except:
-							pass
+						except Exception as err:
+							print(err)
 						try:
 							os.remove(os.path.join(root,file))
 							detectedfiles.append({"path":os.path.join(root,file),"detection":name,"rem":True})
@@ -368,8 +399,8 @@ try:
 							detectedfiles.append({"path":os.path.join(root,file),"detection":name,"rem":False})
 					else:
 						detectedfiles.append({"path":os.path.join(root,file),"detection":name,"rem":False})
-			except:
-				pass
+			except Exception as err:
+				debugerror(err)
 except:
 	scandone = False
 else:
