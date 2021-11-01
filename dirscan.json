@@ -1,0 +1,9 @@
+[
+  {
+    "rule_name":"Infostealer_1 detection",
+    "rule_ref":"https://www.rapid7.com/blog/post/2021/10/28/sneaking-through-windows-infostealer-malware-masquerades-as-windows-application/",
+    "dir_path":"C:\\Program Files\\WindowsApps\\3b76099d-e6e0-4e86-bed1-100cc5fa699f_113.0.2.0_neutral__7afzw0tp1da5e\\HoxLuSfo",
+    "detection_name":"Infostealer.1",
+    "detection_type":"Spyware"
+  }
+  ]
