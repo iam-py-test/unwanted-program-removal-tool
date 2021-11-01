@@ -5,19 +5,27 @@ import time
 try:
 	import requests
 	import filetype
+	import psutil
 except:
 	try:
 		devnull = open(os.devnull, 'wb')
 		subprocess.Popen("pip3 install requests", stdout=devnull, stderr=devnull)
 		subprocess.Popen("pip3 install filetype", stdout=devnull, stderr=devnull)
-		time.sleep(1)
+		subprocess.Popen("pip3 install psutil", stdout=devnull, stderr=devnull)
+		time.sleep(10)
 		import requests
 		import filetype
+		import psutil
 	except:
 		try:
-			time.sleep(3)
+			subprocess.Popen("pip3 install requests", stdout=devnull, stderr=devnull)
+			subprocess.Popen("pip3 install filetype", stdout=devnull, stderr=devnull)
+			subprocess.Popen("pip3 install psutil", stdout=devnull, stderr=devnull)
+			time.sleep(5)
 			import requests
 			import filetype
+			import psutil
+			time.sleep(1)
 		except Exception as err:
 			print(err)
 import json
@@ -53,6 +61,17 @@ def hasarg(arg):
 def debugerror(err,context1="N/A",context2="N/A"):
 	if hasarg("--debug"):
 		print("UPRT Debug: Error \"{}\" encountered and handled. Additional info: '{}' and '{}' ".format(err,context1,context2))
+
+def endfile(fpath):
+	try:
+		for proc in psutil.process_iter():
+			try:
+				if proc.exe() == fpath:
+					proc.kill()
+			except Exception as err:
+				debugerror(err)
+	except Exception as err:
+		print(err)
 
 if hasarg("--debug"):
 	print("UPRT Debug: Running in Debug Mode")
@@ -283,9 +302,7 @@ try:
 						try:
 							if shouldremove == "y":
 								try:
-									devnull = open(os.devnull, 'wb')
-									subprocess.Popen("taskkill /F /IM \"{}\"".format(file), stdout=devnull, stderr=devnull)
-									subprocess.Popen("taskkill /F /IM \"{}\"".format(file), stdout=devnull, stderr=devnull)
+									endfile(os.path.join(root,file))
 								except Exception as err:
 									debugerror(err)
 								os.remove(os.path.join(root,file))
@@ -295,17 +312,18 @@ try:
 								continue
 							try:
 								devnull = open(os.devnull, 'wb')
-								subprocess.Popen("taskkill /F /IM \"{}\"".format(file), stdout=devnull, stderr=devnull)
+								endfile(os.path.join(root,file))
 								time.sleep(5)
-								subprocess.Popen("taskkill /F /IM \"{}\"".format(file), stdout=devnull, stderr=devnull)
+								endfile(os.path.join(root,file))
 								os.remove(os.path.join(root,file))
 								remed = True
 							except Exception as err:
-								subprocess.Popen("taskkill /F /IM \"{}\"".format(file), stdout=devnull, stderr=devnull)
+								print(err)
+								endfile(os.path.join(root,file))
 								try:
 									os.remove(os.path.join(root,file))
 								except:
-									subprocess.run("taskkill /F /IM \"{}\"".format(file),shell=True)
+									endfile(os.path.join(root,file))
 									os.remove(os.path.join(root,file))
 						detectedfiles.append({"path":os.path.join(root,file),"detection":sig,"rem":remed})
 
@@ -387,8 +405,7 @@ try:
 						shouldremove = input("Remove (y/n): ")
 					if shouldremove == "y":
 						try:
-							devnull = open(os.devnull, 'wb')
-							subprocess.Popen("taskkill /F /IM \"{}\"".format(file), stdout=devnull, stderr=devnull)
+							endfile(os.path.join(root,file))
 						except Exception as err:
 							print(err)
 						try:
@@ -433,7 +450,8 @@ if len(detectedfiles) > 0:
 				print("Zip {} in {} contained malware and was disinfected".format(detection["file"],detection["path"]))
 				continue
 		except:
-			pass
+			#its not a zip
+			detection["iszip"] = False
 		if detection["rem"] == True:
 			print("{} was detected as '{}' and removed".format(detection["path"],detection["detection"]))
 		else:
