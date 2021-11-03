@@ -335,7 +335,9 @@
     "Rogue.FakeADWCleaner":["51290129cccca38c6e3b4444d0dfb8d848c8f3fc2e5291fc0d219fd642530adc","4f0033e811fe2497b38f0d45df958829d01933ebe7d331079eefc8e38fbeaa61"]
   },
   "Riskware":{
-    "Riskware.MacOS.netlockexploit":["9bb6ce7cb19b779bc53b8d14ff95da0ddc37be1f383ff47d9186a3b7c1660844"]
+    "Riskware.MacOS.netlockexploit":["9bb6ce7cb19b779bc53b8d14ff95da0ddc37be1f383ff47d9186a3b7c1660844"],
+    "Riskware.DesktopGoose.assets":["8bd76d47ccdcaf00c2ccfd5a4f77d97af4fb0547ceeff262fa006747c8e64207","f31a7a2625336d98c15da64675ceda25da223b596bc2b3d3183f6e0acf7b02a3"],
+    "Riskware.ChromePasswordStealer":["2446d3de8841860384d5dfd1c05015891d1ce0fde2e6dd0697fb7ecfeb4d5054"]
   },
   "JokeProgram":{
   "JokeProgram.TPSChallo":["887ba691653fc5a6a91ea58a5993d0e999a4efc285dc10e21bca2bf0de7fe029"],
@@ -349,7 +351,8 @@
   "JokeProgram.vista":["6680317e6eaa04315b47aaadd986262cd485c8a4bd843902f4c779c858a3e31b"],
   "JokeProgram.cursorfun":["ef878461a149024f3065121ff4e165731ecabef1b94b0b3ed2eda010ad39202b"],
   "JokeProgram.ScreenScrew":["e03520794f00fb39ef3cfff012f72a5d03c60f89de28dbe69016f6ed151b5338"],
-  "JokeProgram.phenix.js":["546d6d884be732bc8e4478902a3265bfc3cec1ee72f32d22ffa57475f24395b5","0dc4217bfe82f96478fc4226ddbe96d2396de2288656cbb1846ec223b2b249f0","7deae1e669c2de2e88e391eb295f0a60a8a0b8b085234d5ffed16540de06d037"]
+  "JokeProgram.phenix.js":["546d6d884be732bc8e4478902a3265bfc3cec1ee72f32d22ffa57475f24395b5","0dc4217bfe82f96478fc4226ddbe96d2396de2288656cbb1846ec223b2b249f0","7deae1e669c2de2e88e391eb295f0a60a8a0b8b085234d5ffed16540de06d037"],
+  "JokeProgram.DesktopGoose":["2d97bbbeb28b7836841aad642aa9c36f5c8f388bde0a0b22d8b17c8b9d417fd8","943fd1ea44266c5d7fa02f2b292db095a4e6ba8027a1f6c73fd60d1165e63aff","efa31df7ab1394092395365805f913dd023cdcd21796603f133641524fb9ad79"]
 },
   "Adware":{
     "Adware.Generic.Android.1":["dc22b7fe6bf502b620b1e84095e26ff31d428744678cb6b2ad7af46ec740c236","220a54fd7c19f8ae56c8fd01d5c69fd4093075de3eda01e91f9168385d909583"],
