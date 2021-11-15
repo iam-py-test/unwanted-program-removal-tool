@@ -346,7 +346,9 @@
   "Trojan.Windows.generic.252":["879fccdf9b4b09063a6dbf1ac2cc381a1ebcacf6e38f5b8d4889785a4ccde22a"],
   "Trojan.Windows.generic.253":["4970975b3596048497e4cd865a66e68b017afddc392ce8de6d1b071846908295","48bf6b216fedcd9ad055231d5179cd419533fdd480870a1a819cb90c903e557e","2bc3c95726f91e7dbfb361105535d89b9633d67001cb07284f1ea933b6ed8d83","f9b23456d437aa62affe41f13a2b7c8a4470a9ef8befda98a27cba781cd6d0a9"],
   "Trojan.Windows.generic.254":["c5e7cae202daceb0ef39f7c1b1876e8cee06a87800677195e39b9778c7bd1c12"],
-  "Trojan.Linux.generic.11":["597b269e4d1003c1af4ddd797f87f838be88817f2cc5b1ce24f373707d2fb40f"]
+  "Trojan.Linux.generic.11":["597b269e4d1003c1af4ddd797f87f838be88817f2cc5b1ce24f373707d2fb40f"],
+  "Trojan.Linux.generic.12":["3bf1b7e9bdaeaa4a5619cf26b59767637bc44193df2a0470df263b98b1fe47fe"],
+  "Trojan.Windows.generic.255":["5a3860bb660c7b386aa4913c2997d9290851e82f4194e87335f192d477053ef4"]
 },
   "Ransomware":{
   "Ransomware.Windows.benign.testfile":["7c0910e2c2a5b1c4fe94e5bee2e2977532b8344dbddff16c219184c374311249"],
