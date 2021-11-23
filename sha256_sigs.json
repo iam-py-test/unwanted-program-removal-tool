@@ -357,7 +357,9 @@
   "Trojan.Windows.generic.230":["d813cfe0969c5ffd66db1fcb585e10cdd426da03b2aefed1a5aa27f1ef396993"],
   "Trojan.Windows.generic.231":["20169cb42268a10a04f464c9e183c25c0ed73f8592a567d518eb1b1bb8c57806","c163bd5822cb61f1219756247b4a185e0e3fba746fcacb9d4883448331f06fbe"],
   "Trojan.Linux.generic.13":["f2a443b6c4ffde6e88daa60afe095436fb42fdf8eb32b84614b4108b346b4d04","03aedb2fdb5c2b77cd6805a64be55e3ca253e428a87fe72553185947ee58a026"],
-  "Trojan.Windows.generic.232":["c988a65d39f617c531454c2f15971c0a769d42ac84bea0a7a3bd89394ba3e654"]
+  "Trojan.Windows.generic.232":["c988a65d39f617c531454c2f15971c0a769d42ac84bea0a7a3bd89394ba3e654"],
+  "Trojan.Windows.generic.233":["fc1d9e1fa106a6a2fcee3a638f0959c97ebca35f6746f253fe0067f7a22322fe","431fe297f810c9dd56f33b24fed773a9dfb05e00f668d1a254a660a9e95f7347","afa0c51cbd7d4fba29bfdabb81f6e27b2391a71ff1814cb0f6f0572bcae48e80"],
+  "Trojan.Windows.generic.234":["ed22391a8e5ed4ee16a41ed2523a2b3e6bae2099b903a8ad7dbf3dc0f7d03535","c9e4bc0bb2d0478d55daa3622d394dcc2c9966a36ffd3d38b439771135a60aab"]
 },
   "Ransomware":{
   "Ransomware.Windows.benign.testfile":["7c0910e2c2a5b1c4fe94e5bee2e2977532b8344dbddff16c219184c374311249"],
@@ -413,8 +415,9 @@
   },
   "Riskware":{
     "Riskware.MacOS.netlockexploit":["9bb6ce7cb19b779bc53b8d14ff95da0ddc37be1f383ff47d9186a3b7c1660844"],
-    "Riskware.DesktopGoose.assets":["8bd76d47ccdcaf00c2ccfd5a4f77d97af4fb0547ceeff262fa006747c8e64207","f31a7a2625336d98c15da64675ceda25da223b596bc2b3d3183f6e0acf7b02a3"],
-    "Riskware.ChromePasswordStealer":["2446d3de8841860384d5dfd1c05015891d1ce0fde2e6dd0697fb7ecfeb4d5054"]
+    "Riskware.Windows.DesktopGoose.assets":["8bd76d47ccdcaf00c2ccfd5a4f77d97af4fb0547ceeff262fa006747c8e64207","f31a7a2625336d98c15da64675ceda25da223b596bc2b3d3183f6e0acf7b02a3"],
+    "Riskware.Windows.ChromePasswordStealer":["2446d3de8841860384d5dfd1c05015891d1ce0fde2e6dd0697fb7ecfeb4d5054"],
+    "Riskware.Windows.DisableTaskMGRreg":["9d47647f8489118966fde8f3940d1ce824c9a6f8563e02261588051eb5a5b46d","c0794c820802e15137015241ebb7cb4736cf2c90b573a084067b2d7edaf614de","2c621e59b75d1d36f65e48d669fe79de92bbf4055e4858c42235ddb4857b5ac5"]
   },
   "JokeProgram":{
   "JokeProgram.TPSChallo":["887ba691653fc5a6a91ea58a5993d0e999a4efc285dc10e21bca2bf0de7fe029"],
