@@ -20,5 +20,15 @@
       "include_file_exttype":["image"],
       "include_file_types":["application/x-msdownload"]
     }
+  },
+  {
+    "rule_name":"Imphash-based detection (1)",
+    "rule_desc":"Detect malware based on import hash",
+    "detection_name":"Trojan.ImpHash.1",
+    "detection_type":"Trojan",
+    "simple_mode":false,
+    "rule":{
+      "imphash":["c05041e01f84e1ccca9c4451f3b6a383"]
+    }
   }
 ]
