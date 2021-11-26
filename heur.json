@@ -28,7 +28,7 @@
     "detection_type":"Trojan",
     "simple_mode":false,
     "rule":{
-      "imphash":["c05041e01f84e1ccca9c4451f3b6a383"]
+      "imphash":["c05041e01f84e1ccca9c4451f3b6a383","f34d5f2d4577ed6d9ceec516c1f5a744"]
     }
   }
 ]
