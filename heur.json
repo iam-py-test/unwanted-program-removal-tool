@@ -28,7 +28,7 @@
     "detection_type":"Trojan",
     "simple_mode":false,
     "rule":{
-      "imphash":["c05041e01f84e1ccca9c4451f3b6a383","f34d5f2d4577ed6d9ceec516c1f5a744","fcf1390e9ce472c7270447fc5c61a0c1","d7dd6fa75115d9909f747434e40fff68","32569d67dc210c5cb9a759b08da2bdb3"]
+      "imphash":["c05041e01f84e1ccca9c4451f3b6a383","f34d5f2d4577ed6d9ceec516c1f5a744","fcf1390e9ce472c7270447fc5c61a0c1","d7dd6fa75115d9909f747434e40fff68","32569d67dc210c5cb9a759b08da2bdb3","d8c52655a835ecb2c6fea489c7c7674b","7fa5c9c2dffd615fa15cdafc116d6f16"]
     }
   }
 ]
