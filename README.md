@@ -1,5 +1,9 @@
 # Unwanted program removal tool
 A tool for removing PUPs using signatures
+
+
+**WARNING: Due to a bug, the current version flags _ALL_ files as malware. As this may cause harm to your system, please do not use this tool until I have time to find a fix**
+
 ### What is the unwanted program removal tool?
 The unwanted program removal tool is a free and open source tool for removing PUPs, which are often missed by antimalware products
 ### How do I install it?
