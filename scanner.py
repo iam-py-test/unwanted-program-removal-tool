@@ -32,7 +32,7 @@ import json
 from hashlib import sha256
 from urllib.parse import urlparse
 
-version = 0.5
+version = 0.6
 
 try:
 	selfhash = sha256(open(__file__,"rb").read()).hexdigest()
@@ -160,10 +160,10 @@ def checkheur(root="/",filename=""):
 					for namebit in rule["rule"]["exclude_filename_includes"]:
 						if namebit in filename.lower():
 							ismal = False
-				if rulepart == "include_sha256s":
+				elif rulepart == "include_sha256s":
 					if sha256f not in rule["rule"][rulepart]:
 						ismal = False
-				if rulepart == "include_file_exttype":
+				elif rulepart == "include_file_exttype":
 					try:
 						fileext = os.path.splitext(filename.lower())[1]
 						fileextt = gettypebyext(fileext)
@@ -171,7 +171,7 @@ def checkheur(root="/",filename=""):
 							ismal = False
 					except Exception as err:
 						debugerror(err)
-				if rulepart == "include_file_types":
+				elif rulepart == "include_file_types":
 					try:
 						type = filetype.guess(filename)
 						if type == None:
@@ -180,6 +180,9 @@ def checkheur(root="/",filename=""):
 							ismal = False
 					except Exception as err:
 						debugerror(err)
+				else:
+					# older versions won't understand newer rules, and then will flag everything - https://github.com/iam-py-test/unwanted-program-removal-tool/issues/1
+					ismal = False
 			if ismal == True:
 				return "Heuristics: Threat." + rule["detection_name"]
 	except Exception as err:
