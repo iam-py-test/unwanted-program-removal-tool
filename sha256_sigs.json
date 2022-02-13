@@ -428,7 +428,8 @@
   "Ransomware.Windows.NitroRansomware":["92190c9789485a0d96bced7040080f0ae35c02898c3d31a65d50ecd659b80f09"],
   "Ransomware.Windows.Supersuso":["ac4e10ca68fa738944eed6f2e00f74c5b485a3f52657f87b09e710a8b80d2a26"],
   "Ransomware.Windows.Aimnip":["d18d2eca71c244c76acb596c0dae5045eb70760aeb4d64b086001cb18fc56c73"],
-  "Ransomware.Windows.Farlock":["7ff0223d7cdd2f1633d483562ab8b06a05ead2f89f23d6de212b9681b90c00c6"]
+  "Ransomware.Windows.Farlock":["7ff0223d7cdd2f1633d483562ab8b06a05ead2f89f23d6de212b9681b90c00c6"],
+  "Ransomware.Windows.MountLocker":["00ed4c347cd62526226363a0aceb851b2ef7e3a4da78433a28f2cd6cbd5f1b99"]
 },
 "Spyware":{
     "Spyware.Android.Pegasus":["9fae5d148b89001555132c896879652fe1ca633d35271db34622248e048c78ae"],
