@@ -1,6 +1,8 @@
 # Unwanted program removal tool
 A tool for removing PUPs using signatures
 
+## Note
+I am not currently maintaining this project, so it may have false positives and will NOT detect new threats. I am working on a complete rewrite, including a GUI and a better detection engine, but it may be a while. 
 
 **WARNING: Due to a bug, the current version flags _ALL_ files as malware. As this may cause harm to your system, please upgrade to the latest version before running this tool**
 
